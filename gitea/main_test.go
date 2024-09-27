@@ -7,7 +7,6 @@ package gitea
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -72,7 +71,7 @@ func downGitea() (string, error) {
 		}
 		defer resp.Body.Close()
 
-		f, err := ioutil.TempFile(os.TempDir(), "gitea")
+		f, err := os.CreateTemp(os.TempDir(), "gitea")
 		if err != nil {
 			continue
 		}

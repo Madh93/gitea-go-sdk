@@ -8,8 +8,8 @@ GITEA_SDK_TEST_PASSWORD ?= test01
 
 PACKAGE := code.gitea.io/sdk/gitea
 
-GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@v0.4.0
-GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.0
+GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@v0.7.0
+GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61.0
 GITEA_VET_PACKAGE ?= code.gitea.io/gitea-vet@v0.2.1
 
 GITEA_VERSION := 1.21.10
