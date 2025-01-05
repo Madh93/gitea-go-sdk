@@ -34,7 +34,7 @@ func TestUserApp(t *testing.T) {
 	assert.Len(t, result, 1)
 	assert.EqualValues(t, "gitea-admin", result[0].Name)
 
-	t1, _, err := c.CreateAccessToken(CreateAccessTokenOption{Name: "TestCreateAccessToken"})
+	t1, _, err := c.CreateAccessToken(CreateAccessTokenOption{Name: "TestCreateAccessToken", Scopes: []AccessTokenScope{AccessTokenScopeAll}})
 	assert.NoError(t, err)
 	assert.EqualValues(t, "TestCreateAccessToken", t1.Name)
 	result, _, _ = c.ListAccessTokens(ListAccessTokensOptions{})

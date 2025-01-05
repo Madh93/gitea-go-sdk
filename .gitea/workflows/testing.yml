@@ -8,7 +8,6 @@ jobs:
   testing:
     runs-on: ubuntu-latest
     env:
-      GOPROXY: "https://goproxy.io"
       GO111MODULE: "on"
       HTTP_PROXY: ""
       GITEA_SDK_TEST_URL: "http://gitea:3000"
@@ -18,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: ">=1.21"
+          go-version: ">=1.22"
           check-latest: true
       - run: make clean
       - run: make vet
@@ -28,7 +27,7 @@ jobs:
       - run: make test
     services:
       gitea:
-        image: gitea/gitea:nightly
+        image: gitea/gitea:1.22.6
         cmd:
           - bash
           - -c

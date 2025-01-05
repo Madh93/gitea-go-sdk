@@ -12,6 +12,52 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestQueryEncode(t *testing.T) {
+	log.Println("== TestQueryEncode ==")
+	opts := ListCommitOptions{}
+	assert.EqualValues(t, "", opts.SHA)
+	assert.EqualValues(t, "", opts.Path)
+	assert.EqualValues(t, "", opts.Not)
+	assert.EqualValues(t, false, opts.Stat)
+	assert.EqualValues(t, false, opts.Verification)
+	assert.EqualValues(t, false, opts.Files)
+
+	query := opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=false&limit=0&page=0&stat=false&verification=false",
+		query)
+
+	opts.Path = "gitea"
+	query = opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=false&limit=0&page=0&path=gitea&stat=false&verification=false",
+		query)
+
+	opts.SHA = "main"
+	query = opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=false&limit=0&page=0&path=gitea&sha=main&stat=false&verification=false",
+		query)
+
+	opts.Verification = true
+	query = opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=false&limit=0&page=0&path=gitea&sha=main&stat=false&verification=true",
+		query)
+
+	opts.Stat = true
+	query = opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=false&limit=0&page=0&path=gitea&sha=main&stat=true&verification=true",
+		query)
+
+	opts.Files = true
+	query = opts.QueryEncode()
+	assert.EqualValues(t,
+		"files=true&limit=0&page=0&path=gitea&sha=main&stat=true&verification=true",
+		query)
+}
+
 func TestListRepoCommits(t *testing.T) {
 	log.Println("== TestListRepoCommits ==")
 	c := newTestClient()
@@ -19,7 +65,7 @@ func TestListRepoCommits(t *testing.T) {
 	repo, err := createTestRepo(t, "ListRepoCommits", c)
 	assert.NoError(t, err)
 
-	l, _, err := c.ListRepoCommits(repo.Owner.UserName, repo.Name, ListCommitOptions{})
+	l, _, err := c.ListRepoCommits(repo.Owner.UserName, repo.Name, ListCommitOptions{Verification: true, Stat: true})
 	assert.NoError(t, err)
 	assert.Len(t, l, 1)
 	assert.EqualValues(t, "Initial commit\n", l[0].RepoCommit.Message)

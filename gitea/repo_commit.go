@@ -108,8 +108,8 @@ func (opt *ListCommitOptions) QueryEncode() string {
 		query.Add("path", opt.Path)
 	}
 	query.Add("stat", strconv.FormatBool(opt.Stat))
-	query.Add("verification", strconv.FormatBool(opt.Stat))
-	query.Add("files", strconv.FormatBool(opt.Stat))
+	query.Add("verification", strconv.FormatBool(opt.Verification))
+	query.Add("files", strconv.FormatBool(opt.Files))
 	if opt.Not != "" {
 		query.Add("not", opt.Not)
 	}
