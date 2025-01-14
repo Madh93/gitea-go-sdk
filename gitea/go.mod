@@ -3,7 +3,7 @@ module code.gitea.io/sdk/gitea
 go 1.18
 
 require (
-	github.com/42wim/httpsig v1.2.1
+	github.com/42wim/httpsig v1.2.2
 	github.com/davidmz/go-pageant v1.0.2
 	github.com/go-fed/httpsig v1.1.0
 	github.com/hashicorp/go-version v1.6.0
