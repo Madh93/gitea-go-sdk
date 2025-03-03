@@ -34,6 +34,28 @@ func TestCreateRepo(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestCreateRepoSha256(t *testing.T) {
+	log.Println("== TestCreateRepoSha256 ==")
+	c := newTestClient()
+	user, _, err := c.GetMyUserInfo()
+	assert.NoError(t, err)
+
+	repoName := "test1"
+	_, _, err = c.GetRepo(user.UserName, repoName)
+	if err != nil {
+		repo, _, err := c.CreateRepo(CreateRepoOption{
+			Name:             repoName,
+			ObjectFormatName: "sha256",
+		})
+		assert.NoError(t, err)
+		assert.NotNil(t, repo)
+		assert.EqualValues(t, "sha256", repo.ObjectFormatName)
+	}
+
+	_, err = c.DeleteRepo(user.UserName, repoName)
+	assert.NoError(t, err)
+}
+
 func TestRepoMigrateAndLanguages(t *testing.T) {
 	log.Println("== TestMigrateRepo ==")
 	c := newTestClient()

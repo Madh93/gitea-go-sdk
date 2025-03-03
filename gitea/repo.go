@@ -113,6 +113,7 @@ type Repository struct {
 	DefaultMergeStyle             MergeStyle       `json:"default_merge_style"`
 	ProjectsMode                  *ProjectsMode    `json:"projects_mode"`
 	DefaultDeleteBranchAfterMerge bool             `json:"default_delete_branch_after_merge"`
+	ObjectFormatName              string           `json:"object_format_name"`
 }
 
 // RepoType represent repo type
@@ -339,6 +340,8 @@ type CreateRepoOption struct {
 	DefaultBranch string `json:"default_branch"`
 	// TrustModel of the repository
 	TrustModel TrustModel `json:"trust_model"`
+	// ObjectFormatName of the repository, could be sha1 or sha256, depends on Gitea version
+	ObjectFormatName string `json:"object_format_name"`
 }
 
 // Validate the CreateRepoOption struct
@@ -360,6 +363,11 @@ func (opt CreateRepoOption) Validate(c *Client) error {
 			return err
 		}
 	}
+	if len(opt.ObjectFormatName) != 0 {
+		if opt.ObjectFormatName != "sha1" && opt.ObjectFormatName != "sha256" {
+			return fmt.Errorf("object format must be sha1 or sha256")
+		}
+	}
 	return nil
 }
 
@@ -367,6 +375,10 @@ func (opt CreateRepoOption) Validate(c *Client) error {
 func (c *Client) CreateRepo(opt CreateRepoOption) (*Repository, *Response, error) {
 	if err := opt.Validate(c); err != nil {
 		return nil, nil, err
+	}
+	// object_format_name is only supported on gitea >= 1.22.0
+	if c.checkServerVersionGreaterThanOrEqual(version1_22_0) != nil {
+		opt.ObjectFormatName = ""
 	}
 	body, err := json.Marshal(&opt)
 	if err != nil {
