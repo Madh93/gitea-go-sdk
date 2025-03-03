@@ -65,9 +65,10 @@ func TestUserSearch(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, ul, 0)
 
+	// this will search It or it in name, full_name or email
 	ul, _, err = c.SearchUsers(SearchUsersOption{KeyWord: "It"})
 	assert.NoError(t, err)
-	assert.Len(t, ul, 2)
+	assert.Len(t, ul, 16)
 }
 
 func TestUserFollow(t *testing.T) {
