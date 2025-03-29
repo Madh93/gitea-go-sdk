@@ -1,6 +1,6 @@
 module code.gitea.io/sdk/gitea
 
-go 1.18
+go 1.23
 
 require (
 	github.com/42wim/httpsig v1.2.2
