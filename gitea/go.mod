@@ -1,8 +1,6 @@
 module code.gitea.io/sdk/gitea
 
-go 1.23.0
-
-toolchain go1.24.1
+go 1.23
 
 require (
 	github.com/42wim/httpsig v1.2.2
@@ -10,7 +8,7 @@ require (
 	github.com/go-fed/httpsig v1.1.0
 	github.com/hashicorp/go-version v1.7.0
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/crypto v0.35.0
+	golang.org/x/crypto v0.33.0
 )
 
 require (
