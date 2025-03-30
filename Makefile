@@ -78,7 +78,7 @@ ci-lint:
 	if [ -n "$$diff" ]; then \
 		echo; echo "Not gofumpt-ed"; \
 		exit 1; \
-	fi; echo " done"; echo -n "golangci-lint ...";\
+	fi; echo " done"; echo -n "golangci-lint ..."; $(GO) version;\
 	$(GO) run $(GOLANGCI_LINT_PACKAGE) run --timeout 5m; \
 	if [ $$? -eq 1 ]; then \
 		echo; echo "Doesn't pass golangci-lint"; \
