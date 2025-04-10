@@ -37,7 +37,7 @@ jobs:
       - run: make test
     services:
       gitea:
-        image: gitea/gitea:1.23.6
+        image: gitea/gitea:1.23.7
         cmd:
           - bash
           - -c
