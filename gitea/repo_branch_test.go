@@ -22,6 +22,8 @@ func TestRepoBranches(t *testing.T) {
 		return
 	}
 	time.Sleep(1 * time.Second)
+
+	// list repo branches
 	bl, _, err := c.ListRepoBranches(repo.Owner.UserName, repo.Name, ListRepoBranchesOptions{})
 	assert.NoError(t, err)
 	assert.Len(t, bl, 3)
@@ -39,9 +41,12 @@ func TestRepoBranches(t *testing.T) {
 	assert.EqualValues(t, branches["update"].Commit.ID, b.Commit.ID)
 	assert.EqualValues(t, branches["update"].Commit.Added, b.Commit.Added)
 
+	// try deleting the default branch
 	s, _, err := c.DeleteRepoBranch(repo.Owner.UserName, repo.Name, "main")
 	assert.NoError(t, err)
 	assert.False(t, s)
+
+	// delete a regular branch
 	s, _, err = c.DeleteRepoBranch(repo.Owner.UserName, repo.Name, "feature")
 	assert.NoError(t, err)
 	assert.True(t, s)
@@ -54,12 +59,22 @@ func TestRepoBranches(t *testing.T) {
 	assert.Error(t, err)
 	assert.Nil(t, b)
 
+	// create a branch
 	bNew, _, err := c.CreateBranch(repo.Owner.UserName, repo.Name, CreateBranchOption{BranchName: "NewBranch"})
 	assert.NoError(t, err)
 
 	b, _, err = c.GetRepoBranch(repo.Owner.UserName, repo.Name, bNew.Name)
 	assert.NoError(t, err)
 	assert.EqualValues(t, bNew, b)
+
+	// update a branch
+	successful, _, err := c.UpdateRepoBranch(repo.Owner.UserName, repo.Name, "NewBranch", UpdateRepoBranchOption{Name: "RenamedBranch"})
+	assert.True(t, successful)
+	assert.NoError(t, err)
+
+	b, _, err = c.GetRepoBranch(repo.Owner.UserName, repo.Name, "RenamedBranch")
+	assert.NoError(t, err)
+	assert.EqualValues(t, "RenamedBranch", b.Name)
 }
 
 func TestRepoBranchProtection(t *testing.T) {
