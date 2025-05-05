@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/url"
 	"reflect"
+	"time"
 )
 
 // AccessTokenScope represents the scope for an access token.
@@ -71,6 +72,8 @@ type AccessToken struct {
 	Token          string             `json:"sha1"`
 	TokenLastEight string             `json:"token_last_eight"`
 	Scopes         []AccessTokenScope `json:"scopes"`
+	Created        time.Time          `json:"created_at,omitempty"`
+	Updated        time.Time          `json:"last_used_at,omitempty"`
 }
 
 // ListAccessTokensOptions options for listing a users's access tokens
