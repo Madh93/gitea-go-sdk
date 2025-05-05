@@ -8,8 +8,8 @@ GITEA_SDK_TEST_PASSWORD ?= test01
 
 PACKAGE := code.gitea.io/sdk/gitea
 
-GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@v0.7.0
-GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5
+GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@v0.8.0
+GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1.6
 GITEA_VET_PACKAGE ?= code.gitea.io/gitea-vet@v0.2.1
 
 GITEA_VERSION ?= 1.23.7
@@ -46,7 +46,7 @@ help:
 	@echo " - build             build sdk"
 	@echo " - clean             clean"
 	@echo " - fmt               format the code"
-	@echo " - lint              run golint"
+	@echo " - ci-lint           run golint"
 	@echo " - vet               examines Go source code and reports"
 	@echo " - test              run unit tests (need a running gitea)"
 	@echo " - test-instance     start a gitea instance for test"
@@ -121,4 +121,3 @@ bench:
 .PHONY: build
 build:
 	cd gitea && $(GO) build
-

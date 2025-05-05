@@ -63,11 +63,12 @@ func TestNotifications(t *testing.T) {
 		assert.EqualValues(t, "Issue", n.Subject.Type)
 		assert.EqualValues(t, NotifySubjectOpen, nList[0].Subject.State)
 		assert.EqualValues(t, NotifySubjectOpen, nList[1].Subject.State)
-		if n.Subject.Title == "A Issue" {
+		switch n.Subject.Title {
+		case "A Issue":
 			assert.EqualValues(t, repoA.Name, n.Repository.Name)
-		} else if n.Subject.Title == "B Issue" {
+		case "B Issue":
 			assert.EqualValues(t, repoB.Name, n.Repository.Name)
-		} else {
+		default:
 			assert.Error(t, fmt.Errorf("ListNotifications returned a Issue witch should not"))
 		}
 	}

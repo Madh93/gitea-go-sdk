@@ -172,7 +172,11 @@ func TestGetArchiveReader(t *testing.T) {
 	time.Sleep(time.Second / 2)
 	r, _, err := c.GetArchiveReader(repo.Owner.UserName, repo.Name, "main", ZipArchive)
 	assert.NoError(t, err)
-	defer r.Close()
+	defer func() {
+		if closeErr := r.Close(); closeErr != nil {
+			t.Errorf("error when closing archive reader: %v", closeErr)
+		}
+	}()
 
 	archive := bytes.NewBuffer(nil)
 	nBytes, err := io.Copy(archive, r)

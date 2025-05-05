@@ -40,7 +40,11 @@ func createTestPackage(_ *testing.T, c *Client) error {
 	if err != nil {
 		return err
 	}
-	defer response.Body.Close()
+	defer func() {
+		if closeErr := response.Body.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
 
 	return nil
 }

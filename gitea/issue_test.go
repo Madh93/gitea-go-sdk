@@ -19,7 +19,7 @@ func TestIssue(t *testing.T) {
 
 	createIssue(t, c)
 	// Little sleep in order to give some time for gitea to properly store all information on database. Without this sleep, CI is a bit unstable
-	time.Sleep(200 * time.Millisecond)
+	time.Sleep(1 * time.Second)
 	editIssues(t, c)
 	listIssues(t, c)
 	deleteIssue(t, c)
@@ -62,8 +62,9 @@ func deleteIssue(t *testing.T, c *Client) {
 
 func editIssues(t *testing.T, c *Client) {
 	log.Println("== TestEditIssues ==")
-	il, _, err := c.ListIssues(ListIssueOption{KeyWord: "soon!"})
+	il, _, err := c.ListIssues(ListIssueOption{KeyWord: "Do it soon!"})
 	assert.NoError(t, err)
+	assert.Len(t, il, 1)
 	issue, _, err := c.GetIssue(il[0].Poster.UserName, il[0].Repository.Name, il[0].Index)
 	assert.NoError(t, err)
 

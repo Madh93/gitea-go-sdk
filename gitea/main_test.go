@@ -69,15 +69,21 @@ func downGitea() (string, error) {
 		if err != nil {
 			continue
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if closeErr := resp.Body.Close(); closeErr != nil && err == nil {
+				err = closeErr
+			}
+		}()
 
 		f, err := os.CreateTemp(os.TempDir(), "gitea")
 		if err != nil {
 			continue
 		}
 		_, err = io.Copy(f, resp.Body)
-		f.Close()
 		if err != nil {
+			continue
+		}
+		if closeErr := f.Close(); closeErr != nil {
 			continue
 		}
 
@@ -121,7 +127,11 @@ LEVEL = Trace
 REDIRECT_MACARON_LOG = true
 MACARON = ,
 ROUTER = ,`)
-	cfg.Close()
+	defer func() {
+		if closeErr := cfg.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
 	if err != nil {
 		log.Fatal(err)
 	}
