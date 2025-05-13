@@ -2,7 +2,7 @@ module code.gitea.io/sdk/gitea
 
 go 1.23.0
 
-toolchain go1.24.2
+toolchain go1.24.3
 
 require (
 	github.com/42wim/httpsig v1.2.3
