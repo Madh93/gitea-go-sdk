@@ -259,10 +259,10 @@ func (opt *SearchRepoOptions) QueryEncode() string {
 
 	// Repo Attributes
 	if opt.IsPrivate != nil {
-		query.Add("is_private", fmt.Sprintf("%v", opt.IsPrivate))
+		query.Add("is_private", fmt.Sprintf("%t", *opt.IsPrivate))
 	}
 	if opt.IsArchived != nil {
-		query.Add("archived", fmt.Sprintf("%v", opt.IsArchived))
+		query.Add("archived", fmt.Sprintf("%t", *opt.IsArchived))
 	}
 	if opt.ExcludeTemplate {
 		query.Add("template", "false")
