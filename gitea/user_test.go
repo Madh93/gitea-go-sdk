@@ -68,7 +68,7 @@ func TestUserSearch(t *testing.T) {
 	// this will search It or it in name, full_name or email
 	ul, _, err = c.SearchUsers(SearchUsersOption{KeyWord: "It"})
 	assert.NoError(t, err)
-	assert.Len(t, ul, 16)
+	assert.Len(t, ul, 18)
 }
 
 func TestUserFollow(t *testing.T) {
@@ -189,7 +189,7 @@ func TestGetUserByID(t *testing.T) {
 	assert.NotNil(t, r2)
 	assert.Equal(t, user2.UserName, r2.UserName)
 
-	r3, _, err := c.GetUserByID(42)
+	r3, _, err := c.GetUserByID(999999)
 	assert.Error(t, err)
 	assert.Nil(t, r3)
 
