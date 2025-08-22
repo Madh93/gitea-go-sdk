@@ -446,6 +446,26 @@ func (c *Client) getResponseReader(method, path string, header http.Header, body
 	return resp.Body, resp, nil
 }
 
+func (c *Client) doRequestWithStatusHandle(method, path string, header http.Header, body io.Reader) (*Response, error) {
+	resp, err := c.doRequest(method, path, header, body)
+	if err != nil {
+		return resp, err
+	}
+
+	// check for errors
+	if _, err = statusCodeToErr(resp); err != nil {
+		// resp.Body has already been closed in statusCodeToErr
+		return resp, err
+	}
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
+
+	return resp, err
+}
+
 func (c *Client) getResponse(method, path string, header http.Header, body io.Reader) ([]byte, *Response, error) {
 	resp, err := c.doRequest(method, path, header, body)
 	if err != nil {

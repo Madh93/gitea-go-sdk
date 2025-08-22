@@ -141,6 +141,5 @@ func (c *Client) DeleteAccessToken(value interface{}) (*Response, error) {
 		return nil, fmt.Errorf("only string and int64 supported")
 	}
 
-	_, resp, err := c.getResponse("DELETE", fmt.Sprintf("/users/%s/tokens/%s", url.PathEscape(username), url.PathEscape(token)), jsonHeader, nil)
-	return resp, err
+	return c.doRequestWithStatusHandle("DELETE", fmt.Sprintf("/users/%s/tokens/%s", url.PathEscape(username), url.PathEscape(token)), jsonHeader, nil)
 }

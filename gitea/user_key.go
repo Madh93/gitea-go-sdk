@@ -79,6 +79,5 @@ func (c *Client) CreatePublicKey(opt CreateKeyOption) (*PublicKey, *Response, er
 
 // DeletePublicKey delete public key with key id
 func (c *Client) DeletePublicKey(keyID int64) (*Response, error) {
-	_, resp, err := c.getResponse("DELETE", fmt.Sprintf("/user/keys/%d", keyID), nil, nil)
-	return resp, err
+	return c.doRequestWithStatusHandle("DELETE", fmt.Sprintf("/user/keys/%d", keyID), nil, nil)
 }

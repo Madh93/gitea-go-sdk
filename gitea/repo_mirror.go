@@ -72,6 +72,5 @@ func (c *Client) DeletePushMirror(user, repo, remoteName string) (*Response, err
 	if err := escapeValidatePathSegments(&user, &repo, &remoteName); err != nil {
 		return nil, err
 	}
-	_, resp, err := c.getResponse("DELETE", fmt.Sprintf("/repos/%s/%s/push_mirrors/%s", user, repo, remoteName), nil, nil)
-	return resp, err
+	return c.doRequestWithStatusHandle("DELETE", fmt.Sprintf("/repos/%s/%s/push_mirrors/%s", user, repo, remoteName), nil, nil)
 }

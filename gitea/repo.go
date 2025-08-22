@@ -506,8 +506,7 @@ func (c *Client) DeleteRepo(owner, repo string) (*Response, error) {
 	if err := escapeValidatePathSegments(&owner, &repo); err != nil {
 		return nil, err
 	}
-	_, resp, err := c.getResponse("DELETE", fmt.Sprintf("/repos/%s/%s", owner, repo), nil, nil)
-	return resp, err
+	return c.doRequestWithStatusHandle("DELETE", fmt.Sprintf("/repos/%s/%s", owner, repo), nil, nil)
 }
 
 // MirrorSync adds a mirrored repository to the mirror sync queue.
@@ -515,8 +514,7 @@ func (c *Client) MirrorSync(owner, repo string) (*Response, error) {
 	if err := escapeValidatePathSegments(&owner, &repo); err != nil {
 		return nil, err
 	}
-	_, resp, err := c.getResponse("POST", fmt.Sprintf("/repos/%s/%s/mirror-sync", owner, repo), nil, nil)
-	return resp, err
+	return c.doRequestWithStatusHandle("POST", fmt.Sprintf("/repos/%s/%s/mirror-sync", owner, repo), nil, nil)
 }
 
 // GetRepoLanguages return language stats of a repo
